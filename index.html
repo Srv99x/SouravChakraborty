@@ -112,6 +112,7 @@
         <ul class="site-nav__list">
           <li><a href="#about">About</a></li>
           <li><a href="#work">Work</a></li>
+          <li><a href="#console">Console</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#history">History</a></li>
           <li><a href="#now">Now</a></li>
@@ -165,21 +166,36 @@
             </ul>
           </div>
 
-          <!-- Figure 1 (waveform canvas, DESIGN.md 5.1). -->
+          <!-- Figure 1 (waveform + spectrogram scope, DESIGN-INTERACTIVE.md 1). -->
           <figure class="figure figure--scope" id="figure-1">
             <canvas class="figure__canvas" id="figure-1-canvas" role="img"
-                    aria-label="Oscilloscope-style plot of an illustrated speech waveform: a carrier wave shaped into five syllable-like bursts."></canvas>
+                    aria-label="Oscilloscope-style plot of speech waveform: live or sampled audio signal with graticule."></canvas>
+            <canvas class="figure__spectrogram" id="figure-1-spectrogram" height="64" role="img"
+                    aria-label="Spectrogram frequency distribution strip from sheet to trace."></canvas>
             <div class="figure__legend" id="figure-legend" hidden aria-hidden="true">
               <span class="figure__legend-item"><span class="figure__legend-line figure__legend-line--natural" aria-hidden="true"></span>Natural speech</span>
               <span class="figure__legend-item"><span class="figure__legend-line figure__legend-line--synth" aria-hidden="true"></span>Synthetic speech</span>
             </div>
-            <figcaption class="caption">
-              Figure 1. An illustrated speech signal, generated in the browser. Overlay a synthetic one to see the kind of artifacts VoiceGuard looks for. <a href="https://voice-detection-ai.vercel.app/" rel="noopener">For real detection, try the live demo.</a>
+            <figcaption class="caption" id="scope-caption">
+              Figure 1. A speech signal. Overlay a synthetic one to see the kind of artifacts VoiceGuard looks for.
             </figcaption>
             <div class="figure__actions">
+              <button class="btn btn--secondary btn--sm" id="scope-record-btn" type="button">Record 5 seconds</button>
+              <button class="btn btn--secondary btn--sm" id="scope-file-btn" type="button">Drop or choose an audio file</button>
+              <input type="file" id="scope-file-input" accept=".wav,.mp3,.m4a,.ogg,audio/*" class="visually-hidden" aria-hidden="true">
+              <button class="btn btn--secondary btn--sm" id="scope-sample-btn" type="button">Sample</button>
               <button class="btn btn--secondary btn--sm" id="figure-overlay-btn" type="button" aria-pressed="false">Overlay synthetic</button>
+              <button class="btn btn--secondary btn--sm" id="scope-play-btn" type="button" hidden>Play</button>
               <button class="btn btn--secondary btn--sm" id="figure-replay-btn" type="button">Replay</button>
             </div>
+            <div class="scope__readouts num" id="scope-readouts" aria-live="polite">
+              <span>Peak −3.1 dB</span>
+              <span>Duration 2.0 s</span>
+              <span>Pitch ≈ 140 Hz</span>
+            </div>
+            <p class="scope__privacy">
+              Your audio stays in your browser. To check if a clip is a deepfake, <a href="https://voice-detection-ai.vercel.app/" rel="noopener">run it through VoiceGuard AI</a>.
+            </p>
           </figure>
         </div>
       </div>
@@ -270,10 +286,10 @@
           <h2 class="section__title" id="work-title">Application notes</h2>
           <p class="section__subtitle">Projects, how they're built, live demos</p>
         </div>
-        <div class="section__body">
+        <div class="section__body" id="work-mount">
 
           <!-- VoiceGuard AI -->
-          <article class="note" aria-labelledby="note-voiceguard">
+          <article class="note" id="project-voiceguard" aria-labelledby="note-voiceguard">
             <header class="note__header">
               <div>
                 <h3 class="note__name" id="note-voiceguard">VoiceGuard AI</h3>
@@ -290,12 +306,12 @@
                   <caption>Specifications</caption>
                   <tbody>
                     <tr><th scope="row">Detection accuracy</th><td class="num">~91%</td></tr>
-                    <tr><th scope="row">Model</th><td>Wav2Vec2-Large-XLSR-53</td></tr>
-                    <tr><th scope="row">Framework</th><td>FastAPI</td></tr>
-                    <tr><th scope="row">Auth</th><td>JWT, CORS</td></tr>
-                    <tr><th scope="row">Hosting</th><td>HuggingFace Spaces</td></tr>
-                    <tr><th scope="row">Containers</th><td>Docker (local builds)</td></tr>
-                    <tr><th scope="row">CI/CD</th><td>GitHub Actions</td></tr>
+                    <tr data-skill="wav2vec2"><th scope="row">Model</th><td>Wav2Vec2-Large-XLSR-53</td></tr>
+                    <tr data-skill="fastapi"><th scope="row">Framework</th><td>FastAPI</td></tr>
+                    <tr data-skill="jwt-cors"><th scope="row">Auth</th><td>JWT, CORS</td></tr>
+                    <tr data-skill="huggingface"><th scope="row">Hosting</th><td>HuggingFace Spaces</td></tr>
+                    <tr data-skill="docker"><th scope="row">Containers</th><td>Docker (local builds)</td></tr>
+                    <tr data-skill="github-actions"><th scope="row">CI/CD</th><td>GitHub Actions</td></tr>
                     <tr><th scope="row">Context</th><td>India AI Impact Buildathon (HCL GUVI), <span class="num">40,000+</span> participants</td></tr>
                   </tbody>
                 </table>
@@ -336,7 +352,7 @@
           </article>
 
           <!-- MediSense AI (diagram sits on the opposite side) -->
-          <article class="note note--flip" aria-labelledby="note-medisense">
+          <article class="note note--flip" id="project-medisense" aria-labelledby="note-medisense">
             <header class="note__header">
               <div>
                 <h3 class="note__name" id="note-medisense">MediSense AI</h3>
@@ -352,11 +368,11 @@
                 <table class="specs">
                   <caption>Specifications</caption>
                   <tbody>
-                    <tr><th scope="row">Model</th><td>Gemini 2.5 Flash</td></tr>
-                    <tr><th scope="row">Framework</th><td>FastAPI</td></tr>
-                    <tr><th scope="row">Hosting</th><td>HuggingFace Spaces (API), Vercel (frontend)</td></tr>
+                    <tr data-skill="gemini"><th scope="row">Model</th><td>Gemini 2.5 Flash</td></tr>
+                    <tr data-skill="fastapi"><th scope="row">Framework</th><td>FastAPI</td></tr>
+                    <tr data-skill="huggingface"><th scope="row">Hosting</th><td>HuggingFace Spaces (API), Vercel (frontend)</td></tr>
                     <tr><th scope="row">Integration</th><td>Secure API bridge</td></tr>
-                    <tr><th scope="row">Auth</th><td>JWT, CORS</td></tr>
+                    <tr data-skill="jwt-cors"><th scope="row">Auth</th><td>JWT, CORS</td></tr>
                     <tr><th scope="row">Security</th><td>OWASP Top <span class="num">10</span> hardening</td></tr>
                     <tr><th scope="row">Output</th><td>Condition cards with probability and urgency</td></tr>
                   </tbody>
@@ -398,7 +414,7 @@
           </article>
 
           <!-- AudioGuard Agent -->
-          <article class="note" aria-labelledby="note-audioguard">
+          <article class="note" id="project-audioguard" aria-labelledby="note-audioguard">
             <header class="note__header">
               <div>
                 <h3 class="note__name" id="note-audioguard">AudioGuard Agent</h3>
@@ -451,6 +467,83 @@
     </section>
 
     <!-- =================================================================
+         Interface (API Console, DESIGN-INTERACTIVE.md 2)
+         ================================================================= -->
+    <section class="section" id="console" aria-labelledby="console-title">
+      <div class="container section__grid">
+        <div class="section__margin">
+          <h2 class="section__title" id="console-title">Interface</h2>
+          <p class="section__subtitle">Ask about me the way you'd call an API</p>
+        </div>
+        <div class="section__body">
+          <div class="console" id="api-console">
+            <!-- Sidebar of endpoints -->
+            <div class="console__sidebar">
+              <span class="console__sidebar-title">Endpoints</span>
+              <ul class="console__endpoints" id="console-endpoints-list">
+                <li><button type="button" class="console__endpoint-btn is-active" data-method="GET" data-path="/v1/profile"><span class="console__method-tag console__method-tag--get">GET</span> /v1/profile</button></li>
+                <li><button type="button" class="console__endpoint-btn" data-method="GET" data-path="/v1/projects"><span class="console__method-tag console__method-tag--get">GET</span> /v1/projects</button></li>
+                <li><button type="button" class="console__endpoint-btn" data-method="GET" data-path="/v1/projects/voiceguard"><span class="console__method-tag console__method-tag--get">GET</span> /v1/projects/{id}</button></li>
+                <li><button type="button" class="console__endpoint-btn" data-method="GET" data-path="/v1/skills"><span class="console__method-tag console__method-tag--get">GET</span> /v1/skills</button></li>
+                <li><button type="button" class="console__endpoint-btn" data-method="GET" data-path="/v1/now"><span class="console__method-tag console__method-tag--get">GET</span> /v1/now</button></li>
+                <li><button type="button" class="console__endpoint-btn" data-method="POST" data-path="/v1/contact"><span class="console__method-tag console__method-tag--post">POST</span> /v1/contact</button></li>
+              </ul>
+              <div class="console__hints">
+                <span>Try:</span>
+                <button type="button" class="console__hint-btn" data-method="GET" data-path="/v1/skills?rating=shipped">?rating=shipped</button>
+                <button type="button" class="console__hint-btn" data-method="GET" data-path="/v1/projects?status=live">?status=live</button>
+              </div>
+            </div>
+
+            <!-- Main interactive console pane -->
+            <div class="console__main">
+              <!-- Request line -->
+              <div class="console__request-line">
+                <select class="console__method-select" id="console-method" aria-label="HTTP Method">
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                </select>
+                <input class="console__path-input" id="console-path" type="text" value="/v1/profile" placeholder="/v1/profile" autocomplete="off" spellcheck="false" aria-label="Request path and query">
+                <button class="btn btn--secondary btn--sm console__token-btn" id="console-token-btn" type="button" title="Toggle Bearer demo token">Get token</button>
+                <button class="btn btn--primary btn--sm console__send-btn" id="console-send-btn" type="button">Send</button>
+              </div>
+
+              <!-- Auth header indicator -->
+              <div class="console__auth-banner" id="console-auth-banner" hidden>
+                <code>Authorization: Bearer demo.jwt.token</code>
+                <button class="console__auth-remove" id="console-token-remove" type="button" aria-label="Remove token">×</button>
+              </div>
+
+              <!-- Body editor (for POST requests) -->
+              <div class="console__body-editor" id="console-body-editor" hidden>
+                <label for="console-body-input" class="console__body-label">JSON Request Body</label>
+                <textarea class="console__body-input" id="console-body-input" rows="5" spellcheck="false">{&#10;  "name": "",&#10;  "email": "",&#10;  "message": ""&#10;}</textarea>
+              </div>
+
+              <!-- Response Panel -->
+              <div class="console__response">
+                <div class="console__status-line num" id="console-status-line">
+                  <span class="console__status-code" id="console-status-code">200 OK</span>
+                  <span class="console__latency" id="console-latency">38 ms</span>
+                  <span class="console__size" id="console-size">1.1 KB</span>
+                </div>
+                <div class="console__output-wrap">
+                  <pre class="console__output" id="console-output" tabindex="0"><code>{&#10;  "name": "Sourav Chakraborty",&#10;  "role": "AI backend engineer",&#10;  "location": "Guwahati, Assam",&#10;  "availability": "Available for 2026 internships"&#10;}</code></pre>
+                </div>
+                <div class="console__actions">
+                  <button class="btn btn--secondary btn--sm" id="console-copy-curl" type="button">Copy as curl</button>
+                  <button class="btn btn--secondary btn--sm" id="console-copy-json" type="button">Copy JSON</button>
+                </div>
+              </div>
+
+              <p class="caption">Runs in your browser against this page's data. No server involved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
          Characteristics (Skills)
          ================================================================= -->
     <section class="section" id="skills" aria-labelledby="skills-title">
@@ -459,7 +552,7 @@
           <h2 class="section__title" id="skills-title">Characteristics</h2>
           <p class="section__subtitle">Each skill, rated, with the project that proves it</p>
         </div>
-        <div class="section__body">
+        <div class="section__body" id="skills-mount">
           <div class="table-wrap">
             <table class="data-table skills">
               <caption class="visually-hidden">Skills, with proficiency rating and where each was used</caption>
@@ -471,22 +564,22 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><th scope="row" data-label="Parameter">Python</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard, MediSense</td></tr>
-                <tr><th scope="row" data-label="Parameter">FastAPI</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard, MediSense</td></tr>
-                <tr><th scope="row" data-label="Parameter">JWT auth / CORS</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard, MediSense</td></tr>
-                <tr><th scope="row" data-label="Parameter">GitHub Actions</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard CI/CD</td></tr>
-                <tr><th scope="row" data-label="Parameter">HuggingFace</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">Wav2Vec2 on Spaces</td></tr>
-                <tr><th scope="row" data-label="Parameter">Gemini API</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">MediSense</td></tr>
+                <tr data-skill="python"><th scope="row" data-label="Parameter">Python</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition"><a href="#project-voiceguard">VoiceGuard</a>, <a href="#project-medisense">MediSense</a></td></tr>
+                <tr data-skill="fastapi"><th scope="row" data-label="Parameter">FastAPI</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition"><a href="#project-voiceguard">VoiceGuard</a>, <a href="#project-medisense">MediSense</a></td></tr>
+                <tr data-skill="jwt-cors"><th scope="row" data-label="Parameter">JWT auth / CORS</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition"><a href="#project-voiceguard">VoiceGuard</a>, <a href="#project-medisense">MediSense</a></td></tr>
+                <tr data-skill="github-actions"><th scope="row" data-label="Parameter">GitHub Actions</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition"><a href="#project-voiceguard">VoiceGuard CI/CD</a></td></tr>
+                <tr data-skill="huggingface"><th scope="row" data-label="Parameter">HuggingFace</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition"><a href="#project-voiceguard">Wav2Vec2 on Spaces</a></td></tr>
+                <tr data-skill="gemini"><th scope="row" data-label="Parameter">Gemini API</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition"><a href="#project-medisense">MediSense</a></td></tr>
               </tbody>
               <tbody>
-                <tr><th scope="row" data-label="Parameter">Docker</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Project</span></td><td data-label="Test condition">Local builds</td></tr>
-                <tr><th scope="row" data-label="Parameter">SQL, C++</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Coursework</span></td><td data-label="Test condition">B.Tech</td></tr>
-                <tr><th scope="row" data-label="Parameter">MLflow</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Basics</span></td><td data-label="Test condition">Roadmap exercises</td></tr>
+                <tr data-skill="docker"><th scope="row" data-label="Parameter">Docker</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Project</span></td><td data-label="Test condition">Local builds</td></tr>
+                <tr data-skill="sql-cpp"><th scope="row" data-label="Parameter">SQL, C++</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Coursework</span></td><td data-label="Test condition">B.Tech</td></tr>
+                <tr data-skill="mlflow"><th scope="row" data-label="Parameter">MLflow</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Basics</span></td><td data-label="Test condition">Roadmap exercises</td></tr>
               </tbody>
               <tbody>
-                <tr><th scope="row" data-label="Parameter">Async FastAPI</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition">6-week MLOps plan</td></tr>
-                <tr><th scope="row" data-label="Parameter">Redis / Celery</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition">6-week MLOps plan</td></tr>
-                <tr><th scope="row" data-label="Parameter">WebSockets</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition"><span aria-hidden="true">—</span><span class="visually-hidden">None yet</span></td></tr>
+                <tr data-skill="async-fastapi"><th scope="row" data-label="Parameter">Async FastAPI</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition">6-week MLOps plan</td></tr>
+                <tr data-skill="redis-celery"><th scope="row" data-label="Parameter">Redis / Celery</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition">6-week MLOps plan</td></tr>
+                <tr data-skill="websockets"><th scope="row" data-label="Parameter">WebSockets</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition"><span aria-hidden="true">—</span><span class="visually-hidden">None yet</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -509,7 +602,7 @@
           <h2 class="section__title" id="history-title">Revision history</h2>
           <p class="section__subtitle">Experience and milestones in order</p>
         </div>
-        <div class="section__body">
+        <div class="section__body" id="history-mount">
           <div class="table-wrap">
             <table class="data-table history">
               <caption class="visually-hidden">Experience and milestones, newest first</caption>
@@ -542,7 +635,7 @@
           <h2 class="section__title" id="now-title">Errata and roadmap</h2>
           <p class="section__subtitle">What I'm fixing and learning right now</p>
         </div>
-        <div class="section__body">
+        <div class="section__body" id="now-mount">
           <div class="now-lists">
             <div>
               <h3 class="subtitle">Fixing</h3>
@@ -610,7 +703,10 @@
     </div>
   </footer>
 
+  <script src="content.js" defer></script>
   <script src="script.js" defer></script>
-  <script src="figure.js" defer></script>
+  <script src="scope.js" defer></script>
+  <script src="console.js" defer></script>
+  <script src="trace.js" defer></script>
 </body>
 </html>

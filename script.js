@@ -1,7 +1,4 @@
-/* souravchakraborty.me v2 — main script.
-   Phase 2: sticky-header state, active-section underline, mobile menu, theme toggle.
-   Phase 6 adds: copy email (with aria-live + mailto fallback), print hook.
-   The page is complete without this file; it only enhances. */
+/* souravchakraborty.me v2 — main script */
 (function () {
   'use strict';
 
@@ -17,85 +14,66 @@
     else if (mq.addListener) mq.addListener(fn);
   }
 
-  /* ---- Theme -------------------------------------------------------------
-     The saved choice is applied by the inline script in <head>. Here we only
-     wire the toggle. Without a saved choice the OS setting applies via CSS. */
+  /* Theme toggle */
   var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-  function currentTheme() {
+  function curTheme() {
     var t = root.getAttribute('data-theme');
-    if (t === 'light' || t === 'dark') return t;
-    return mqDark.matches ? 'dark' : 'light';
+    return (t === 'light' || t === 'dark') ? t : (mqDark.matches ? 'dark' : 'light');
   }
 
-  function syncThemeButton() {
-    if (!themeBtn) return;
-    themeBtn.setAttribute(
-      'aria-label',
-      currentTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
-    );
+  function syncThemeBtn() {
+    if (themeBtn) {
+      themeBtn.setAttribute('aria-label', curTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    }
   }
 
   function announceTheme() {
-    // Phase 5 (figure.js) listens for this to redraw with the new colours.
-    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme() } }));
+    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: curTheme() } }));
   }
 
   if (themeBtn) {
     themeBtn.hidden = false;
-    syncThemeButton();
+    syncThemeBtn();
     themeBtn.addEventListener('click', function () {
-      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      var next = curTheme() === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
-      syncThemeButton();
+      syncThemeBtn();
       announceTheme();
     });
     listen(mqDark, function () {
-      syncThemeButton();
+      syncThemeBtn();
       announceTheme();
     });
   }
 
-  /* ---- Header background after 8px of scroll ---------------------------- */
-  function onScroll() {
-    header.classList.toggle('is-scrolled', window.scrollY > 8);
-  }
+  /* Header scroll */
+  function onScroll() { header.classList.toggle('is-scrolled', window.scrollY > 8); }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ---- Mobile menu (below 720px; CSS decides when the button shows) ----- */
-  var mqMobile = window.matchMedia('(max-width: 719px)');
-
-  function menuIsOpen() {
-    return !!menuBtn && menuBtn.getAttribute('aria-expanded') === 'true';
-  }
-
-  function setMenu(open) {
+  /* Mobile menu */
+  var mqMob = window.matchMedia('(max-width: 719px)');
+  function menuOpen() { return !!menuBtn && menuBtn.getAttribute('aria-expanded') === 'true'; }
+  function setMenu(o) {
     if (!menuBtn) return;
-    menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.textContent = open ? 'Close' : 'Menu';
-    header.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', String(o));
+    menuBtn.textContent = o ? 'Close' : 'Menu';
+    header.classList.toggle('menu-open', o);
   }
 
   if (menuBtn) {
     menuBtn.hidden = false;
-    menuBtn.addEventListener('click', function () { setMenu(!menuIsOpen()); });
-    nav.addEventListener('click', function (e) {
-      if (e.target.closest('a')) setMenu(false);
-    });
+    menuBtn.addEventListener('click', function () { setMenu(!menuOpen()); });
+    nav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && menuIsOpen()) {
-        setMenu(false);
-        menuBtn.focus();
-      }
+      if (e.key === 'Escape' && menuOpen()) { setMenu(false); menuBtn.focus(); }
     });
-    listen(mqMobile, function () { setMenu(false); });
+    listen(mqMob, function () { setMenu(false); });
   }
 
-  /* ---- Active-section underline ------------------------------------------ */
-  var links = {};
-  var ids = [];
+  /* Active section tracking */
+  var links = {}, ids = [];
   Array.prototype.forEach.call(nav.querySelectorAll('a[href^="#"]'), function (a) {
     var id = a.getAttribute('href').slice(1);
     if (id && document.getElementById(id)) {
@@ -105,67 +83,57 @@
   });
 
   function setActive(id) {
-    ids.forEach(function (key) {
-      if (key === id) links[key].setAttribute('aria-current', 'true');
-      else links[key].removeAttribute('aria-current');
+    ids.forEach(function (k) {
+      if (k === id) links[k].setAttribute('aria-current', 'true');
+      else links[k].removeAttribute('aria-current');
     });
   }
 
   if ('IntersectionObserver' in window && ids.length) {
     var inBand = {};
-    // A thin band at ~40% of the viewport height decides which section is "current".
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) { inBand[entry.target.id] = entry.isIntersecting; });
+      entries.forEach(function (e) { inBand[e.target.id] = e.isIntersecting; });
       for (var i = 0; i < ids.length; i++) {
         if (inBand[ids[i]]) { setActive(ids[i]); return; }
       }
-      // Nothing in the band: clear only while still above the first section (the cover).
       var first = document.getElementById(ids[0]);
-      if (first.getBoundingClientRect().top > window.innerHeight * 0.45) setActive(null);
+      if (first && first.getBoundingClientRect().top > window.innerHeight * 0.45) setActive(null);
     }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
 
     ids.forEach(function (id) { io.observe(document.getElementById(id)); });
   }
 
-  /* ---- Phase 6: Copy email with polite live region & mailto fallback ----- */
+  /* Copy email */
   var copyEmailBtn = document.getElementById('copy-email-btn');
   var copyLive = document.getElementById('copy-email-feedback');
-  var emailAddress = 'sourav4298532@gmail.com';
+  var email = 'sourav4298532@gmail.com';
   var copyTimer = null;
 
-  function fallbackMailto() {
-    window.location.href = 'mailto:' + emailAddress;
-  }
-
-  function handleCopied() {
-    if (!copyEmailBtn) return;
-    copyEmailBtn.textContent = 'Copied';
-    if (copyLive) copyLive.textContent = 'Email copied';
-
-    clearTimeout(copyTimer);
-    copyTimer = setTimeout(function () {
-      copyEmailBtn.textContent = 'Copy email';
-      if (copyLive) copyLive.textContent = '';
-    }, 2000);
-  }
+  function fallbackMailto() { window.location.href = 'mailto:' + email; }
 
   if (copyEmailBtn) {
     copyEmailBtn.hidden = false;
     copyEmailBtn.addEventListener('click', function () {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(emailAddress).then(handleCopied).catch(fallbackMailto);
+        navigator.clipboard.writeText(email).then(function () {
+          copyEmailBtn.textContent = 'Copied';
+          if (copyLive) copyLive.textContent = 'Email copied';
+          clearTimeout(copyTimer);
+          copyTimer = setTimeout(function () {
+            copyEmailBtn.textContent = 'Copy email';
+            if (copyLive) copyLive.textContent = '';
+          }, 2000);
+        }).catch(fallbackMailto);
       } else {
         fallbackMailto();
       }
     });
   }
 
-  /* ---- Phase 6: Print button --------------------------------------------- */
+  /* Print datasheet */
   var printBtn = document.getElementById('print-sheet-btn');
   if (printBtn) {
     printBtn.hidden = false;
-    printBtn.addEventListener('click', function () {
-      window.print();
-    });
+    printBtn.addEventListener('click', function () { window.print(); });
   }
 })();

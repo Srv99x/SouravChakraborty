@@ -857,6 +857,354 @@ table { border: 1px solid var(--grid); }
 .print-header { display: none; }
 
 /* --------------------------------------------------------------------------
+   14. Live Scope Styles (DESIGN-INTERACTIVE.md 1)
+   -------------------------------------------------------------------------- */
+.figure__spectrogram {
+  display: block;
+  width: 100%;
+  height: 64px;
+  background: var(--sheet);
+  border: 1px solid var(--grid);
+  border-top: none;
+}
+.figure--scope.is-dragover {
+  outline: 2px dashed var(--trace);
+  outline-offset: 4px;
+}
+.scope__readouts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-3);
+  font-size: var(--fs-caption);
+  color: var(--graphite);
+  font-variant-numeric: tabular-nums;
+}
+.scope__privacy {
+  margin-top: var(--s-3);
+  font-size: var(--fs-caption);
+  color: var(--graphite);
+  line-height: 1.4;
+  max-width: 68ch;
+}
+.scope__message {
+  color: var(--flag);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   15. API Console Styles (DESIGN-INTERACTIVE.md 2)
+   -------------------------------------------------------------------------- */
+.console {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: var(--gutter);
+  background: var(--sheet);
+  border: 1px solid var(--grid);
+  padding: var(--s-5);
+}
+
+.console__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  border-right: 1px solid var(--grid);
+  padding-right: var(--s-4);
+}
+.console__sidebar-title {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--graphite);
+}
+.console__endpoints {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+.console__endpoint-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  background: none;
+  border: 1px solid transparent;
+  padding: var(--s-1) var(--s-2);
+  font-family: var(--font-code);
+  font-size: 0.8125rem;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--radius-control);
+}
+.console__endpoint-btn:hover {
+  background: var(--paper);
+}
+.console__endpoint-btn.is-active {
+  background: var(--paper);
+  border-color: var(--grid);
+  font-weight: 500;
+}
+.console__method-tag {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+.console__method-tag--get {
+  background: rgba(11, 122, 117, 0.12);
+  color: var(--trace);
+}
+.console__method-tag--post {
+  background: rgba(166, 111, 0, 0.12);
+  color: var(--flag);
+}
+.console__hints {
+  margin-top: auto;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--grid);
+  font-size: var(--fs-caption);
+  color: var(--graphite);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+.console__hint-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--trace);
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.console__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+}
+.console__request-line {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+}
+.console__method-select {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+  color: var(--ink);
+  border-radius: var(--radius-control);
+}
+.console__path-input {
+  flex: 1;
+  font-family: var(--font-code);
+  font-size: 0.875rem;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--grid);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-control);
+  min-width: 0;
+}
+.console__path-input:focus {
+  border-color: var(--trace);
+  outline: 2px solid var(--trace);
+  outline-offset: 1px;
+}
+.console__token-btn.is-active {
+  background: var(--trace);
+  color: var(--paper);
+  border-color: var(--trace);
+}
+.console__auth-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-1) var(--s-3);
+  background: var(--paper);
+  border: 1px dashed var(--grid);
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  color: var(--graphite);
+}
+.console__auth-remove {
+  background: none;
+  border: none;
+  color: var(--graphite);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.console__body-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+.console__body-label {
+  font-size: var(--fs-caption);
+  color: var(--graphite);
+  font-weight: 500;
+}
+.console__body-input {
+  width: 100%;
+  font-family: var(--font-code);
+  font-size: 0.8125rem;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--grid);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-control);
+  resize: vertical;
+}
+
+.console__response {
+  border: 1px solid var(--grid);
+  background: var(--paper);
+}
+.console__status-line {
+  display: flex;
+  gap: var(--s-4);
+  align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  background: var(--sheet);
+  border-bottom: 1px solid var(--grid);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.console__status-code {
+  color: var(--trace);
+  font-weight: 600;
+}
+.console__status-code.is-error {
+  color: var(--synthetic);
+}
+.console__status-code.is-warn {
+  color: var(--flag);
+}
+.console__latency, .console__size {
+  color: var(--graphite);
+}
+.console__output-wrap {
+  overflow-x: auto;
+  max-height: 380px;
+}
+.console__output {
+  margin: 0;
+  padding: var(--s-3);
+  font-family: var(--font-code);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ink);
+  white-space: pre;
+}
+.console__actions {
+  display: flex;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  background: var(--sheet);
+  border-top: 1px solid var(--grid);
+}
+
+/* Syntax highlighting tokens */
+.json-key   { color: var(--ink); font-weight: 500; }
+.json-str   { color: var(--trace); }
+.json-num   { color: var(--flag); }
+.json-punct { color: var(--graphite); }
+
+@media (max-width: 799px) {
+  .console {
+    grid-template-columns: 1fr;
+  }
+  .console__sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--grid);
+    padding-right: 0;
+    padding-bottom: var(--s-3);
+  }
+  .console__endpoints {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .console__endpoint-btn {
+    width: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. Request Trace Styles (DESIGN-INTERACTIVE.md 3)
+   -------------------------------------------------------------------------- */
+.trace__controls {
+  margin-top: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--grid);
+}
+.trace__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+}
+.trace__radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  font-size: var(--fs-caption);
+  color: var(--graphite);
+}
+.trace__radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.trace__radio input {
+  accent-color: var(--trace);
+}
+.trace__log {
+  margin-top: var(--s-3);
+  padding-left: var(--s-5);
+  font-size: var(--fs-caption);
+  color: var(--ink);
+  line-height: 1.5;
+  list-style: decimal;
+}
+.trace__log:empty {
+  display: none;
+}
+.trace__log li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-block: 2px;
+  border-bottom: 1px dashed var(--grid);
+}
+.trace__log-step { font-weight: 500; }
+.trace__log-time { color: var(--graphite); }
+.trace__log-err  { color: var(--synthetic); }
+.trace__caption  { margin-top: var(--s-2); }
+
+/* Animated Node States in SVG */
+rect.d-box.is-active, .d-box.is-active {
+  stroke: var(--trace) !important;
+  stroke-width: 2.5px !important;
+}
+rect.d-box.is-error, .d-box.is-error {
+  stroke: var(--synthetic) !important;
+  stroke-width: 2.5px !important;
+}
+
+
+/* --------------------------------------------------------------------------
    17. Reduced motion: disable all transitions/animation
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
