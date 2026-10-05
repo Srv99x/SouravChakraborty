@@ -1,527 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- =======================================================================
-       META & RESOURCES
-       
-       - charset + viewport are essential for mobile-first rendering
-       - We preconnect to Google Fonts for faster font loading
-       - Google Fonts loads JetBrains Mono (headings) and Inter (body)
-       ======================================================================= -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sourav Chakraborty — AI backend engineer</title>
+  <meta name="description" content="Sourav Chakraborty builds FastAPI services that serve ML models, secures them, and deploys them. Available for 2026 internships.">
+  <meta name="author" content="Sourav Chakraborty">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1F4F3">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0C1B22">
 
-  <!-- SEO Meta Tags -->
-  <title>Sourav Chakraborty — AI Backend Engineer &amp; MLOps</title>
-  <meta name="description" content="Portfolio of Sourav Chakraborty — 2nd-year B.Tech CSE (AI & Data Science) student building production-grade AI backends with FastAPI, Docker, and MLOps tooling." />
-  <meta name="author" content="Sourav Chakraborty" />
-  <meta name="keywords" content="AI Backend Engineer, MLOps, FastAPI, Python, Portfolio, Sourav Chakraborty" />
+  <link rel="canonical" href="https://souravchakraborty.me/">
 
-  <!-- Open Graph (for social sharing previews) -->
-  <meta property="og:site_name" content="Sourav Chakraborty" />
-  <meta property="og:title" content="Sourav Chakraborty — AI Backend Engineer" />
-  <meta property="og:description" content="AI Backend Engineer building production-grade systems with FastAPI, Docker, and MLOps tooling." />
-  <meta property="og:type" content="website" />
-  <!-- TODO: Replace with your deployed URL (e.g. https://srv99x.github.io/Proff-Portfolio/) -->
-  <meta property="og:url" content="https://srv99x.github.io/sourav-cborty-portfolio/" />
-  <meta property="og:image" content="https://srv99x.github.io/sourav-cborty-portfolio/assets/og-image.png" />
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Sourav Chakraborty">
+  <meta property="og:title" content="Sourav Chakraborty — AI backend engineer">
+  <meta property="og:description" content="AI backend engineer. I build FastAPI services that serve ML models, secure them, and deploy them. Available for 2026 internships.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://souravchakraborty.me/">
+  <meta property="og:image" content="https://souravchakraborty.me/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-  <!-- Twitter Card — uses the same OG image for summary_large_image previews -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Sourav Chakraborty — AI Backend Engineer" />
-  <meta name="twitter:description" content="AI Backend Engineer building production-grade systems with FastAPI, Docker, and MLOps tooling." />
-  <meta name="twitter:image" content="https://srv99x.github.io/sourav-cborty-portfolio/assets/og-image.png" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sourav Chakraborty — AI backend engineer">
+  <meta name="twitter:description" content="AI backend engineer. I build FastAPI services that serve ML models, secure them, and deploy them. Available for 2026 internships.">
+  <meta name="twitter:image" content="https://souravchakraborty.me/assets/og-image.png">
 
-  <!-- Preconnect for Google Fonts performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpeg">
 
-  <!-- Google Fonts: JetBrains Mono (headings) + Inter (body) -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Theme Initialization Script (prevents FOUC) -->
-  <script>
-    const savedTheme = localStorage.getItem('theme');
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (systemDark ? 'dark' : 'light');
-    // For this portfolio, we default to dark if nothing is saved or system is light?
-    // User said: "default to "dark" if none saved or if user's system preference is dark"
-    // So if no saved theme, just default to dark.
-    document.documentElement.setAttribute('data-theme', savedTheme || 'dark');
+  <!-- JSON-LD Person Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Sourav Chakraborty",
+    "jobTitle": "AI Backend Engineer",
+    "description": "AI backend engineer building FastAPI services that serve ML models, secure them, and deploy them.",
+    "url": "https://souravchakraborty.me/",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Assam Down Town University"
+    },
+    "sameAs": [
+      "https://github.com/Srv99x",
+      "https://linkedin.com/in/srv99x",
+      "https://huggingface.co/Srv99x",
+      "https://orcid.org/0009-0008-2573-5210"
+    ]
+  }
   </script>
 
-  <!-- Favicon — circular avatar image used as browser tab icon -->
-  <link rel="icon" type="image/jpeg" href="assets/favicon.jpeg" />
+  <!-- No-flash theme: apply the saved choice before CSS paints. Without a saved
+       choice the page follows the OS setting. The "js" class lets CSS enhance only
+       when scripting is available. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <!-- =====================================================================
-       NAVIGATION
-       
-       Fixed nav with blur backdrop. On mobile, the .nav-toggle button
-       opens a slide-in menu. Links use smooth scroll to section anchors.
-       ===================================================================== -->
-  <nav class="nav" id="nav">
-    <div class="container">
-      <a href="#" class="nav-logo">SC<span>.</span></a>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+  <!-- Running header for print (visible in @media print only) -->
+  <div class="print-header" aria-hidden="true">
+    <div class="print-header__primary">
+      <span class="print-header__name">Sourav Chakraborty</span>
+      <span class="print-header__role">AI backend engineer</span>
+    </div>
+    <div class="print-header__contact">
+      <span>sourav4298532@gmail.com</span>
+      <span>github.com/Srv99x</span>
+      <span>linkedin.com/in/srv99x</span>
+    </div>
+  </div>
 
-      <div class="nav-controls">
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-          <!-- Icon is injected by JS -->
-        </button>
-        <!-- Hamburger button (visible on mobile only) -->
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+  <!-- Shared arrowhead for the block diagrams (Figures 2-5). Zero-size, not display:none,
+       so browsers still resolve the marker reference. -->
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <marker id="arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+        <path class="d-head" d="M0 0L8 4L0 8z"/>
+      </marker>
+    </defs>
+  </svg>
+
+  <!-- ===================================================================
+       Running header. Sticky; script.js adds the scroll background,
+       active-section underline, mobile menu and theme toggle.
+       =================================================================== -->
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__name" href="#top">Sourav Chakraborty</a>
+      <div class="site-header__controls">
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="site-nav__list">
+          <li><a href="#about">About</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#history">History</a></li>
+          <li><a href="#now">Now</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <!-- Both buttons start hidden; script.js reveals them. -->
+      <button class="icon-btn theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 1.5a7.5 7.5 0 0 0 0 15z" fill="currentColor"/></svg>
+      </button>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu</button>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Overlay behind mobile nav (click to close) -->
-  <div class="nav-overlay" id="nav-overlay"></div>
+  <main id="main">
 
-
-  <!-- =====================================================================
-       HERO SECTION
-       
-       The typing effect cycles through role titles. The cursor blink
-       is pure CSS. Links provide quick access to profiles and resume.
-       ===================================================================== -->
-  <section class="hero" id="hero">
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-name animate-on-scroll">Sourav Chakraborty</h1>
-
-        <!-- Terminal typing tagline — JS fills #typing-text dynamically -->
-        <div class="hero-tagline animate-on-scroll delay-1">
-          <span id="typing-text"></span>
-          <span class="cursor"></span>
-        </div>
-
-        <p class="hero-subtitle animate-on-scroll delay-2">
-          Second-year B.Tech CSE (AI &amp; Data Science) student with hands-on
-          experience designing, securing, and deploying AI-powered REST APIs.
-          Building toward production-grade AI backend and MLOps systems.
-        </p>
-
-        <!-- Quick links — GitHub, LinkedIn, Email, Resume -->
-        <div class="hero-links animate-on-scroll delay-3">
-          <a href="https://github.com/Srv99x" target="_blank" rel="noopener noreferrer">
-            <!-- GitHub SVG icon -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            GitHub
-          </a>
-          <a href="https://linkedin.com/in/srv99x" target="_blank" rel="noopener noreferrer">
-            <!-- LinkedIn SVG icon -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            LinkedIn
-          </a>
-          <a href="mailto:sourav4298532@gmail.com">
-            <!-- Email SVG icon -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-            Email
-          </a>
-          <!-- Resume PDF Link -->
-          <a href="assets/Sourav_resume.pdf" class="btn btn-primary" download>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Resume
-          </a>
-        </div>
-
-        <!-- Status indicator -->
-        <div class="hero-status animate-on-scroll delay-4">
-          <span class="status-dot"></span>
-          Open to internship opportunities — 2026
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <hr class="section-divider" />
-
-
-  <!-- =====================================================================
-       ABOUT SECTION
-       
-       3–4 lines, no fluff. Focused on trajectory toward AI backend/MLOps.
-       ===================================================================== -->
-  <section id="about">
-    <div class="container">
-      <div class="section-label animate-on-scroll">About</div>
-      <div class="about-text animate-on-scroll delay-1">
-        <p>
-          I'm a <strong>2nd-year B.Tech CSE (AI &amp; Data Science)</strong> student at
-          <strong>Assam Down Town University, Guwahati</strong> (Batch 2025–2029, CGPA 8.05).
-          My work sits at the intersection of AI inference and backend engineering — I build,
-          secure, and deploy <strong>FastAPI-based REST APIs</strong> that serve ML models in
-          production. Currently closing gaps in async systems, containerization, and MLOps
-          pipelines while contributing to open source and shipping projects at national hackathons.
-        </p>
-      </div>
-    </div>
-  </section>
-
-
-  <hr class="section-divider" />
-
-
-  <!-- =====================================================================
-       PROJECTS SECTION — Bento Grid
-       
-       Each card follows: problem → stack → key metric → links.
-       "Architected and built with AI-assisted implementation" framing.
-       ===================================================================== -->
-  <section id="projects">
-    <div class="container">
-      <div class="section-label animate-on-scroll">Projects</div>
-
-      <div class="bento-grid">
-
-        <!-- PROJECT 1: VoiceGuard AI -->
-        <div class="bento-card project-card animate-on-scroll delay-1">
-          <div class="project-header">
-            <h3 class="project-title">VoiceGuard AI</h3>
-            <span class="project-date">Feb 2026</span>
-          </div>
-
-          <div class="project-metric">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-            ~91% detection accuracy
-          </div>
-
-          <p class="project-desc">
-            Architected a deepfake audio detection REST API for the India AI Impact Buildathon
-            by HCL GUVI (40,000+ participants). Paired a FastAPI backend with Meta's Wav2Vec2
-            model for real-time inference. Built with AI-assisted implementation, deployed via
-            GitHub Actions CI/CD.
-          </p>
-
-          <div class="project-stack">
-            <span>FastAPI</span>
-            <span>Wav2Vec2</span>
-            <span>HuggingFace</span>
-            <span>JWT</span>
-            <span>CORS</span>
-            <span>Docker</span>
-            <span>GitHub Actions</span>
-          </div>
-
-          <div class="project-links">
-            <!-- GitHub repo URL -->
-            <a href="https://github.com/Srv99x/voice-detection-ai" target="_blank" rel="noopener noreferrer">Source</a>
-            <!-- Live demo URL -->
-            <a href="https://voice-detection-ai.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
-          </div>
-        </div>
-
-        <!-- PROJECT 2: MediSense AI -->
-        <div class="bento-card project-card animate-on-scroll delay-2">
-          <div class="project-header">
-            <h3 class="project-title">MediSense AI</h3>
-            <span class="project-date">Mar 2026</span>
-          </div>
-
-          <div class="project-metric">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            OWASP Top 10 Secured
-          </div>
-
-          <p class="project-desc">
-            Architected an AI-powered symptom analysis backend integrating the Gemini 2.5 Flash
-            API with a FastAPI service layer for real-time diagnostic insights. Engineered a
-            decoupled architecture — FastAPI on HuggingFace Spaces with a secure API bridge to
-            a Vercel-hosted frontend. Built with AI-assisted implementation.
-          </p>
-
-          <div class="project-stack">
-            <span>Gemini 2.5 Flash</span>
-            <span>FastAPI</span>
-            <span>HuggingFace</span>
-            <span>Vercel</span>
-            <span>JWT</span>
-            <span>CORS</span>
-          </div>
-
-          <div class="project-links">
-            <!-- GitHub repo URL -->
-            <a href="https://github.com/Srv99x/medisense-ai-app" target="_blank" rel="noopener noreferrer">Source</a>
-            <!-- Live demo URL -->
-            <a href="https://medisense-ai-app.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
-          </div>
-        </div>
-
-      </div><!-- /.bento-grid -->
-    </div>
-  </section>
-
-
-  <hr class="section-divider" />
-
-
-  <!-- =====================================================================
-       SKILLS SECTION — Terminal / Config-File Aesthetic
-       
-       Renders skills like a YAML config file inside a faux terminal window.
-       Below the terminal, a bento grid of skill cards provides a
-       more scannable alternative view.
-       ===================================================================== -->
-  <section id="skills">
-    <div class="container">
-      <div class="section-label animate-on-scroll">Skills</div>
-
-      <!-- Terminal-style config block -->
-      <div class="skills-terminal animate-on-scroll delay-1">
-        <div class="terminal-header">
-          <span class="terminal-dot"></span>
-          <span class="terminal-dot"></span>
-          <span class="terminal-dot"></span>
-          <span class="terminal-title">skills.yml</span>
-        </div>
-        <div class="terminal-body">
-          <div class="config-section">
-            <span class="config-comment"># — Core languages & paradigms</span><br />
-            <span class="config-key">languages:</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Python&nbsp;&nbsp;&nbsp;<span class="config-comment"># OOP, exception handling, file I/O</span></span><br />
-            <span class="config-value">&nbsp;&nbsp;- C++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="config-comment"># OOP fundamentals</span></span><br />
-            <span class="config-value">&nbsp;&nbsp;- SQL</span><br />
-          </div>
-          <div class="config-section">
-            <span class="config-comment"># — Frameworks & tools</span><br />
-            <span class="config-key">frameworks:</span><br />
-            <span class="config-value">&nbsp;&nbsp;- FastAPI</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Streamlit</span><br /><br />
-            <span class="config-key">devops:</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Docker</span><br />
-            <span class="config-value">&nbsp;&nbsp;- GitHub Actions (CI/CD)</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Git</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Vercel / Render / HuggingFace</span><br />
-          </div>
-          <div class="config-section">
-            <span class="config-comment"># — AI/ML & libraries</span><br />
-            <span class="config-key">ai_ml:</span><br />
-            <span class="config-value">&nbsp;&nbsp;- ML fundamentals</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Prompt engineering</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Gemini API / Wav2Vec2</span><br />
-            <span class="config-value">&nbsp;&nbsp;- NumPy / Pandas</span><br />
-            <span class="config-value">&nbsp;&nbsp;- MLflow (basics)</span><br />
-          </div>
-          <div class="config-section">
-            <span class="config-comment"># — Concepts (project-level exposure)</span><br />
-            <span class="config-key">concepts:</span><br />
-            <span class="config-value">&nbsp;&nbsp;- REST API design</span><br />
-            <span class="config-value">&nbsp;&nbsp;- JWT authentication</span><br />
-            <span class="config-value">&nbsp;&nbsp;- CORS configuration</span><br />
-            <span class="config-value">&nbsp;&nbsp;- OWASP Top 10 hardening</span><br />
-          </div>
-          <div class="config-section">
-            <span class="config-comment"># — Currently learning (active roadmap)</span><br />
-            <span class="config-key">learning:</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Async FastAPI</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Redis / Celery</span><br />
-            <span class="config-value">&nbsp;&nbsp;- WebSocket streaming</span><br />
-            <span class="config-value">&nbsp;&nbsp;- DB connection pooling</span><br />
-            <span class="config-value">&nbsp;&nbsp;- Multi-stage Docker builds</span><br />
-          </div>
-        </div>
-      </div>
-
-      <!-- Bento skill cards — scannable at a glance -->
-      <div class="skills-grid" style="margin-top: 1.5rem;">
-        <div class="bento-card animate-on-scroll delay-2">
-          <div class="skill-category-title">Languages</div>
-          <div class="skill-tags">
-            <span>Python</span>
-            <span>C++</span>
-            <span>SQL</span>
-            <span>OOP</span>
-            <span>NumPy</span>
-            <span>Pandas</span>
-          </div>
-        </div>
-        <div class="bento-card animate-on-scroll delay-3">
-          <div class="skill-category-title">Tools &amp; DevOps</div>
-          <div class="skill-tags">
-            <span>Git</span>
-            <span>Docker</span>
-            <span>FastAPI</span>
-            <span>GitHub Actions</span>
-            <span>Vercel</span>
-            <span>HuggingFace</span>
-            <span>MLflow</span>
-          </div>
-        </div>
-        <div class="bento-card animate-on-scroll delay-4">
-          <div class="skill-category-title">Currently Learning</div>
-          <div class="skill-tags">
-            <span>Async FastAPI</span>
-            <span>Redis</span>
-            <span>Celery</span>
-            <span>WebSockets</span>
-            <span>Connection Pooling</span>
-            <span>Multi-stage Docker</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <hr class="section-divider" />
-
-
-  <!-- =====================================================================
-       EXPERIENCE SECTION
-       ===================================================================== -->
-  <section id="experience">
-    <div class="container">
-      <div class="section-label animate-on-scroll">Experience</div>
-
-      <div class="experience-list">
-        <div class="experience-item animate-on-scroll delay-1">
-          <div class="experience-role">Contributor / Mentee</div>
-          <div class="experience-org">GirlScript Summer of Code (GSSoC) 2026</div>
-          <div class="experience-date">Apr 2026 – Present · Remote</div>
-          <p class="experience-desc">
-            Selected as a Contributor for the AI Agents and Open Source tracks out of a
-            national applicant pool. Navigating repository onboarding and issue selection
-            for the active summer cohort.
+    <!-- =================================================================
+         Cover
+         ================================================================= -->
+    <section class="cover" id="top" aria-label="Cover">
+      <div class="container">
+        <div class="cover__title">
+          <h1 class="cover__name">Sourav <span class="cover__name-line">Chakraborty</span></h1>
+          <p class="cover__meta">
+            Revision Oct 2026<br>
+            Guwahati, Assam
           </p>
         </div>
-        <div class="experience-item animate-on-scroll delay-2">
-          <div class="experience-role">Open Source Contributor</div>
-          <div class="experience-org">Open Source Connect Global (OSCG)</div>
-          <div class="experience-date">Mar 2026 – Present · Virtual</div>
-          <p class="experience-desc">
-            Contributed merged pull requests and participated in code reviews across open-source
-            repositories. Earned the program's Contributor Badge for high-quality input.
-          </p>
+
+        <p class="cover__lede">AI backend engineer. I build FastAPI services that serve ML models, secure them, and deploy them.</p>
+
+        <p class="status"><span class="status__dot" aria-hidden="true"></span>Available for 2026 internships</p>
+
+        <div class="cover__actions">
+          <a class="btn btn--primary" href="assets/Sourav_resume.pdf" target="_blank" rel="noopener">Download resume</a>
+          <a href="https://github.com/Srv99x" rel="noopener">GitHub</a>
+          <a href="https://linkedin.com/in/srv99x" rel="noopener">LinkedIn</a>
+          <a href="mailto:sourav4298532@gmail.com">Email</a>
+        </div>
+
+        <div class="cover__lower">
+          <div class="cover__features">
+            <h2 class="cover__features-title">Features</h2>
+            <ul class="features">
+              <li>Two deployed AI APIs with live demos</li>
+              <li>~91% deepfake-audio detection (Wav2Vec2, FastAPI)</li>
+              <li>JWT auth, CORS, OWASP Top 10 hardening</li>
+              <li>CI/CD with GitHub Actions</li>
+              <li>Open source: GSSoC 2026, OSCG</li>
+            </ul>
+          </div>
+
+          <!-- Figure 1 (waveform canvas, DESIGN.md 5.1). -->
+          <figure class="figure figure--scope" id="figure-1">
+            <canvas class="figure__canvas" id="figure-1-canvas" role="img"
+                    aria-label="Oscilloscope-style plot of an illustrated speech waveform: a carrier wave shaped into five syllable-like bursts."></canvas>
+            <div class="figure__legend" id="figure-legend" hidden aria-hidden="true">
+              <span class="figure__legend-item"><span class="figure__legend-line figure__legend-line--natural" aria-hidden="true"></span>Natural speech</span>
+              <span class="figure__legend-item"><span class="figure__legend-line figure__legend-line--synth" aria-hidden="true"></span>Synthetic speech</span>
+            </div>
+            <figcaption class="caption">
+              Figure 1. An illustrated speech signal, generated in the browser. Overlay a synthetic one to see the kind of artifacts VoiceGuard looks for. <a href="https://voice-detection-ai.vercel.app/" rel="noopener">For real detection, try the live demo.</a>
+            </figcaption>
+            <div class="figure__actions">
+              <button class="btn btn--secondary btn--sm" id="figure-overlay-btn" type="button" aria-pressed="false">Overlay synthetic</button>
+              <button class="btn btn--secondary btn--sm" id="figure-replay-btn" type="button">Replay</button>
+            </div>
+          </figure>
         </div>
       </div>
+    </section>
 
-      <!-- =================================================================
-           GITHUB STATS — Embeddable SVG images from github-readme-stats.
-           Theme matches our dark palette with transparent background.
-           Wrapped in a fallback container so layout is unaffected if the
-           external images fail to load.
-           ================================================================= -->
-      <div class="github-stats animate-on-scroll delay-3">
-        <div class="section-label" style="margin-top: 2.5rem;">GitHub Activity</div>
-        <div class="github-stats-grid">
-          <div class="github-stat-card">
-            <!-- onerror: hide card gracefully if github-readme-stats API is rate-limited -->
-            <img
-              src="https://github-readme-stats.vercel.app/api?username=Srv99x&theme=github_dark&hide_border=true&bg_color=00000000&title_color=2563eb&text_color=a3a3a3&icon_color=2563eb"
-              alt="Sourav's GitHub stats"
-              loading="lazy"
-              width="495"
-              height="195"
-              onerror="this.parentElement.style.display='none'"
-            />
+    <!-- =================================================================
+         Description (About)
+         ================================================================= -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container section__grid">
+        <div class="section__margin">
+          <h2 class="section__title" id="about-title">Description</h2>
+          <p class="section__subtitle">What I build and where I study</p>
+        </div>
+        <div class="section__body">
+          <div class="prose">
+            <p>I'm a second-year B.Tech CSE (AI &amp; Data Science) student at Assam Down Town University in Guwahati, originally from Tripura. I work where ML inference meets backend engineering: designing REST APIs around models, adding authentication and hardening, and getting them deployed with CI/CD.</p>
+            <p>I'm deliberate about the gap between a demo and a production system. Right now that means moving my projects to async inference, containers and proper service layouts, and rebuilding one of them without AI-written code so I understand every line.</p>
           </div>
-          <div class="github-stat-card">
-            <img
-              src="https://github-readme-streak-stats.herokuapp.com/?user=Srv99x&theme=github-dark-blue&hide_border=true&background=00000000&ring=2563eb&fire=2563eb&currStreakLabel=2563eb"
-              alt="Sourav's GitHub streak"
-              loading="lazy"
-              width="495"
-              height="195"
-              onerror="this.parentElement.style.display='none'"
-            />
+
+          <!-- Figure 2. Two SVGs, one per layout: horizontal from 600px up, stacked below. Only one is displayed. -->
+          <figure class="figure diagram">
+            <div class="diagram__panel">
+              <svg class="diagram__svg diagram__svg--wide" viewBox="0 0 560 150" role="img" aria-labelledby="f2w-t f2w-d">
+                <title id="f2w-t">Typical application</title>
+                <desc id="f2w-d">A client sends an HTTPS request to a FastAPI service protected by JWT and CORS. FastAPI passes the input to a model and returns a JSON response. The service is hosted on HuggingFace Spaces or Render, and the frontend on Vercel.</desc>
+                <rect class="d-box" x="0.5" y="40.5" width="99" height="44"/>
+                <rect class="d-box" x="153.5" y="40.5" width="99" height="44"/>
+                <rect class="d-box" x="307.5" y="40.5" width="99" height="44"/>
+                <rect class="d-box" x="459.5" y="40.5" width="99" height="44"/>
+                <path class="d-line" d="M99.5 62.5H153.5" marker-end="url(#arrow)"/>
+                <path class="d-line" d="M252.5 62.5H307.5" marker-end="url(#arrow)"/>
+                <path class="d-line" d="M406.5 62.5H459.5" marker-end="url(#arrow)"/>
+                <text class="d-text" x="50" y="67" text-anchor="middle">Client</text>
+                <text class="d-text" x="203" y="67" text-anchor="middle">FastAPI</text>
+                <text class="d-text" x="357" y="67" text-anchor="middle">Model</text>
+                <text class="d-text" x="509" y="67" text-anchor="middle">JSON response</text>
+                <text class="d-text" x="126.5" y="55" text-anchor="middle">HTTPS</text>
+                <text class="d-text d-text--note" x="0" y="104">Frontend on Vercel</text>
+                <text class="d-text d-text--note" x="203" y="104" text-anchor="middle">JWT · CORS</text>
+                <path class="d-line d-line--note" d="M153.5 113V119.5H406.5V113"/>
+                <text class="d-text d-text--note" x="280" y="138" text-anchor="middle">Hosted on HF Spaces / Render</text>
+              </svg>
+              <svg class="diagram__svg diagram__svg--stack" viewBox="0 0 320 285" role="img" aria-labelledby="f2s-t f2s-d">
+                <title id="f2s-t">Typical application</title>
+                <desc id="f2s-d">A client sends an HTTPS request to a FastAPI service protected by JWT and CORS. FastAPI passes the input to a model and returns a JSON response. The service is hosted on HuggingFace Spaces or Render, and the frontend on Vercel.</desc>
+                <rect class="d-box" x="0.5" y="0.5" width="149" height="44"/>
+                <rect class="d-box" x="0.5" y="80.5" width="149" height="44"/>
+                <rect class="d-box" x="0.5" y="160.5" width="149" height="44"/>
+                <rect class="d-box" x="0.5" y="240.5" width="149" height="44"/>
+                <path class="d-line" d="M75.5 44.5V80.5" marker-end="url(#arrow)"/>
+                <path class="d-line" d="M75.5 124.5V160.5" marker-end="url(#arrow)"/>
+                <path class="d-line" d="M75.5 204.5V240.5" marker-end="url(#arrow)"/>
+                <text class="d-text" x="75" y="27" text-anchor="middle">Client</text>
+                <text class="d-text" x="75" y="107" text-anchor="middle">FastAPI</text>
+                <text class="d-text" x="75" y="187" text-anchor="middle">Model</text>
+                <text class="d-text" x="75" y="267" text-anchor="middle">JSON response</text>
+                <text class="d-text" x="87" y="67">HTTPS</text>
+                <text class="d-text d-text--note" x="166" y="27">Frontend on Vercel</text>
+                <text class="d-text d-text--note" x="166" y="92">JWT · CORS</text>
+                <text class="d-text d-text--note" x="166" y="108">Hosted on</text>
+                <text class="d-text d-text--note" x="166" y="124">HF Spaces / Render</text>
+              </svg>
+            </div>
+            <figcaption class="caption">Figure 2. Typical application. Both projects follow this pattern: a client calls a FastAPI service, which runs a model and returns JSON.</figcaption>
+          </figure>
+
+          <dl class="deflist">
+            <dt>Degree</dt>
+            <dd>B.Tech CSE (AI &amp; Data Science)</dd>
+            <dt>University</dt>
+            <dd>Assam Down Town University</dd>
+            <dt>Batch</dt>
+            <dd class="num">2025–2029</dd>
+            <dt>CGPA</dt>
+            <dd class="num">8.05</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         Application notes (Work)
+         ================================================================= -->
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="container section__grid">
+        <div class="section__margin">
+          <h2 class="section__title" id="work-title">Application notes</h2>
+          <p class="section__subtitle">Projects, how they're built, live demos</p>
+        </div>
+        <div class="section__body">
+
+          <!-- VoiceGuard AI -->
+          <article class="note" aria-labelledby="note-voiceguard">
+            <header class="note__header">
+              <div>
+                <h3 class="note__name" id="note-voiceguard">VoiceGuard AI</h3>
+                <p class="note__descriptor">Deepfake audio detection API</p>
+              </div>
+              <p class="note__date num">Feb 2026</p>
+            </header>
+
+            <p class="note__text">Cloned voices are hard to tell apart from real ones by ear. For the India AI Impact Buildathon by HCL GUVI, I built a REST API that takes an audio clip and returns a score and a label: natural or synthetic speech. A FastAPI service wraps Meta's Wav2Vec2-Large-XLSR-53 model from HuggingFace. Requests are protected with JWT auth and CORS rules, secrets stay in <code>.env</code>, and every change deploys through GitHub Actions.</p>
+
+            <div class="note__body">
+              <div class="note__specs table-wrap">
+                <table class="specs">
+                  <caption>Specifications</caption>
+                  <tbody>
+                    <tr><th scope="row">Detection accuracy</th><td class="num">~91%</td></tr>
+                    <tr><th scope="row">Model</th><td>Wav2Vec2-Large-XLSR-53</td></tr>
+                    <tr><th scope="row">Framework</th><td>FastAPI</td></tr>
+                    <tr><th scope="row">Auth</th><td>JWT, CORS</td></tr>
+                    <tr><th scope="row">Hosting</th><td>HuggingFace Spaces</td></tr>
+                    <tr><th scope="row">Containers</th><td>Docker (local builds)</td></tr>
+                    <tr><th scope="row">CI/CD</th><td>GitHub Actions</td></tr>
+                    <tr><th scope="row">Context</th><td>India AI Impact Buildathon (HCL GUVI), <span class="num">40,000+</span> participants</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <figure class="figure diagram">
+                <div class="diagram__panel">
+                  <svg class="diagram__svg diagram__svg--tall" viewBox="0 0 320 269" role="img" aria-labelledby="f3-t f3-d">
+                    <title id="f3-t">VoiceGuard AI block diagram</title>
+                    <desc id="f3-d">An audio upload goes to a FastAPI service, then to the Wav2Vec2-Large-XLSR-53 model, which produces a score and label. A GitHub Actions box feeds deployment of the FastAPI service.</desc>
+                    <rect class="d-box" x="0.5" y="0.5" width="189" height="40"/>
+                    <rect class="d-box" x="0.5" y="76.5" width="189" height="40"/>
+                    <rect class="d-box" x="0.5" y="152.5" width="189" height="40"/>
+                    <rect class="d-box" x="0.5" y="228.5" width="189" height="40"/>
+                    <rect class="d-box" x="250.5" y="76.5" width="69" height="40"/>
+                    <path class="d-line" d="M95.5 40.5V76.5" marker-end="url(#arrow)"/>
+                    <path class="d-line" d="M95.5 116.5V152.5" marker-end="url(#arrow)"/>
+                    <path class="d-line" d="M95.5 192.5V228.5" marker-end="url(#arrow)"/>
+                    <path class="d-line" d="M250.5 96.5H190.5" marker-end="url(#arrow)"/>
+                    <text class="d-text" x="95" y="25" text-anchor="middle">Audio upload</text>
+                    <text class="d-text" x="95" y="101" text-anchor="middle">FastAPI</text>
+                    <text class="d-text" x="95" y="177" text-anchor="middle">Wav2Vec2-Large-XLSR-53</text>
+                    <text class="d-text" x="95" y="253" text-anchor="middle">Score + label</text>
+                    <text class="d-text" x="285" y="92" text-anchor="middle">GitHub</text>
+                    <text class="d-text" x="285" y="107" text-anchor="middle">Actions</text>
+                    <text class="d-text" x="220.5" y="90" text-anchor="middle">deploy</text>
+                  </svg>
+                </div>
+                <figcaption class="caption">Figure 3. VoiceGuard AI. An uploaded clip is scored by Wav2Vec2-Large-XLSR-53 behind FastAPI. GitHub Actions deploys the service.</figcaption>
+              </figure>
+            </div>
+
+            <p class="note__progress"><span class="note__progress-mark" aria-hidden="true">▲</span><span><span class="visually-hidden">Status: </span>In progress: moving sync inference (<code>run_in_executor</code>) to a routers / schemas / services layout.</span></p>
+
+            <div class="note__actions">
+              <a class="btn btn--secondary" href="https://voice-detection-ai.vercel.app/" rel="noopener">Open live demo</a>
+              <a href="https://github.com/Srv99x/voice-detection-ai" rel="noopener">View source</a>
+            </div>
+          </article>
+
+          <!-- MediSense AI (diagram sits on the opposite side) -->
+          <article class="note note--flip" aria-labelledby="note-medisense">
+            <header class="note__header">
+              <div>
+                <h3 class="note__name" id="note-medisense">MediSense AI</h3>
+                <p class="note__descriptor">Symptom analysis backend</p>
+              </div>
+              <p class="note__date num">Mar 2026</p>
+            </header>
+
+            <p class="note__text">MediSense turns a plain-language description of symptoms into structured condition cards, each with a probability score and an urgency level for triage. A FastAPI service on HuggingFace Spaces calls Gemini 2.5 Flash and shapes the response. The Vercel frontend never talks to the model directly: it goes through a secure API bridge, and the backend is hardened against the OWASP Top 10.</p>
+
+            <div class="note__body">
+              <div class="note__specs table-wrap">
+                <table class="specs">
+                  <caption>Specifications</caption>
+                  <tbody>
+                    <tr><th scope="row">Model</th><td>Gemini 2.5 Flash</td></tr>
+                    <tr><th scope="row">Framework</th><td>FastAPI</td></tr>
+                    <tr><th scope="row">Hosting</th><td>HuggingFace Spaces (API), Vercel (frontend)</td></tr>
+                    <tr><th scope="row">Integration</th><td>Secure API bridge</td></tr>
+                    <tr><th scope="row">Auth</th><td>JWT, CORS</td></tr>
+                    <tr><th scope="row">Security</th><td>OWASP Top <span class="num">10</span> hardening</td></tr>
+                    <tr><th scope="row">Output</th><td>Condition cards with probability and urgency</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <figure class="figure diagram">
+                <div class="diagram__panel">
+                  <svg class="diagram__svg diagram__svg--tall" viewBox="0 0 320 350" role="img" aria-labelledby="f4-t f4-d">
+                    <title id="f4-t">MediSense AI block diagram</title>
+                    <desc id="f4-d">A Vercel frontend calls a secure API bridge, which reaches a FastAPI service on HuggingFace Spaces. FastAPI calls Gemini 2.5 Flash, and the result comes back as condition cards with probability and urgency.</desc>
+                    <rect class="d-box" x="0.5" y="0.5" width="219" height="44"/>
+                    <rect class="d-box" x="0.5" y="76.5" width="219" height="44"/>
+                    <rect class="d-box" x="0.5" y="152.5" width="219" height="44"/>
+                    <rect class="d-box" x="0.5" y="228.5" width="219" height="44"/>
+                    <rect class="d-box" x="0.5" y="304.5" width="219" height="44"/>
+                    <path class="d-line" d="M110.5 44.5V76.5" marker-end="url(#arrow)"/>
+                    <path class="d-line" d="M110.5 120.5V152.5" marker-end="url(#arrow)"/>
+                    <path class="d-line" d="M110.5 196.5V228.5" marker-end="url(#arrow)"/>
+                    <path class="d-line" d="M110.5 272.5V304.5" marker-end="url(#arrow)"/>
+                    <text class="d-text" x="110" y="27" text-anchor="middle">Vercel frontend</text>
+                    <text class="d-text" x="110" y="103" text-anchor="middle">Secure API bridge</text>
+                    <text class="d-text" x="110" y="170" text-anchor="middle">FastAPI</text>
+                    <text class="d-text d-text--note" x="110" y="186" text-anchor="middle">HuggingFace Spaces</text>
+                    <text class="d-text" x="110" y="255" text-anchor="middle">Gemini 2.5 Flash</text>
+                    <text class="d-text" x="110" y="322" text-anchor="middle">Condition cards</text>
+                    <text class="d-text d-text--note" x="110" y="338" text-anchor="middle">probability + urgency</text>
+                  </svg>
+                </div>
+                <figcaption class="caption">Figure 4. MediSense AI. The Vercel frontend reaches Gemini 2.5 Flash only through the FastAPI service, by way of a secure API bridge.</figcaption>
+              </figure>
+            </div>
+
+            <p class="note__progress"><span class="note__progress-mark" aria-hidden="true">▲</span><span><span class="visually-hidden">Status: </span>In progress: rebuilding MediSense without AI-assisted code. AI explains, I implement.</span></p>
+
+            <div class="note__actions">
+              <a class="btn btn--secondary" href="https://medisense-ai-app.vercel.app/" rel="noopener">Open live demo</a>
+              <a href="https://github.com/Srv99x/medisense-ai-app" rel="noopener">View source</a>
+            </div>
+          </article>
+
+          <!-- AudioGuard Agent -->
+          <article class="note" aria-labelledby="note-audioguard">
+            <header class="note__header">
+              <div>
+                <h3 class="note__name" id="note-audioguard">AudioGuard Agent</h3>
+                <p class="note__descriptor">Deepfake-audio risk checks for developer pipelines</p>
+              </div>
+              <p class="note__date">GitAgent Hackathon</p>
+            </header>
+
+            <p class="note__text">An agent that runs inside a developer pipeline, scores audio for deepfake risk, classifies how confident that score is, and writes an audit report. Built for the GitAgent Hackathon.</p>
+
+            <div class="note__body">
+              <div class="note__specs table-wrap">
+                <table class="specs">
+                  <caption>Specifications</caption>
+                  <tbody>
+                    <tr><th scope="row">Input</th><td>Audio in a developer pipeline</td></tr>
+                    <tr><th scope="row">Output</th><td>Risk score, confidence class, audit report</td></tr>
+                    <tr><th scope="row">Context</th><td>GitAgent Hackathon</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <figure class="figure diagram">
+                <div class="diagram__panel">
+                  <svg class="diagram__svg diagram__svg--tall" viewBox="0 0 320 186" role="img" aria-labelledby="f5-t f5-d">
+                    <title id="f5-t">AudioGuard Agent pipeline</title>
+                    <desc id="f5-d">Audio enters the developer pipeline, is risk scored, and produces an audit report.</desc>
+                    <rect class="d-box" x="0.5" y="0.5" width="219" height="40"/>
+                    <rect class="d-box" x="0.5" y="72.5" width="219" height="40"/>
+                    <rect class="d-box" x="0.5" y="144.5" width="219" height="40"/>
+                    <path class="d-line" d="M110.5 40.5V72.5" marker-end="url(#arrow)"/>
+                    <path class="d-line" d="M110.5 112.5V144.5" marker-end="url(#arrow)"/>
+                    <text class="d-text" x="110" y="25" text-anchor="middle">Audio in pipeline</text>
+                    <text class="d-text" x="110" y="97" text-anchor="middle">Risk scoring</text>
+                    <text class="d-text" x="110" y="169" text-anchor="middle">Audit report</text>
+                  </svg>
+                </div>
+                <figcaption class="caption">Figure 5. AudioGuard Agent. Audio is risk scored and the result is written up as an audit report.</figcaption>
+              </figure>
+            </div>
+
+            <div class="note__actions">
+              <a href="https://github.com/Srv99x/audioguard-agent" rel="noopener">View source</a>
+            </div>
+          </article>
+
+          <!-- TODO(Sourav): spec wants Firework Simulator v3 as a text link; add its URL here. -->
+          <p class="also-built">Also built: Firework Simulator v3</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         Characteristics (Skills)
+         ================================================================= -->
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="container section__grid">
+        <div class="section__margin">
+          <h2 class="section__title" id="skills-title">Characteristics</h2>
+          <p class="section__subtitle">Each skill, rated, with the project that proves it</p>
+        </div>
+        <div class="section__body">
+          <div class="table-wrap">
+            <table class="data-table skills">
+              <caption class="visually-hidden">Skills, with proficiency rating and where each was used</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Parameter</th>
+                  <th scope="col">Rating</th>
+                  <th scope="col">Test condition</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row" data-label="Parameter">Python</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard, MediSense</td></tr>
+                <tr><th scope="row" data-label="Parameter">FastAPI</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard, MediSense</td></tr>
+                <tr><th scope="row" data-label="Parameter">JWT auth / CORS</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard, MediSense</td></tr>
+                <tr><th scope="row" data-label="Parameter">GitHub Actions</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">VoiceGuard CI/CD</td></tr>
+                <tr><th scope="row" data-label="Parameter">HuggingFace</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">Wav2Vec2 on Spaces</td></tr>
+                <tr><th scope="row" data-label="Parameter">Gemini API</th><td data-label="Rating"><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span></td><td data-label="Test condition">MediSense</td></tr>
+              </tbody>
+              <tbody>
+                <tr><th scope="row" data-label="Parameter">Docker</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Project</span></td><td data-label="Test condition">Local builds</td></tr>
+                <tr><th scope="row" data-label="Parameter">SQL, C++</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Coursework</span></td><td data-label="Test condition">B.Tech</td></tr>
+                <tr><th scope="row" data-label="Parameter">MLflow</th><td data-label="Rating"><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Basics</span></td><td data-label="Test condition">Roadmap exercises</td></tr>
+              </tbody>
+              <tbody>
+                <tr><th scope="row" data-label="Parameter">Async FastAPI</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition">6-week MLOps plan</td></tr>
+                <tr><th scope="row" data-label="Parameter">Redis / Celery</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition">6-week MLOps plan</td></tr>
+                <tr><th scope="row" data-label="Parameter">WebSockets</th><td data-label="Rating"><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></td><td data-label="Test condition"><span aria-hidden="true">—</span><span class="visually-hidden">None yet</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul class="legend" aria-label="Rating legend">
+            <li><span class="rating rating--shipped"><span class="rating__mark" aria-hidden="true">■</span>Shipped</span> (used in a deployed project)</li>
+            <li><span class="rating rating--project"><span class="rating__mark" aria-hidden="true">□</span>Project or coursework</span></li>
+            <li><span class="rating rating--learning"><span class="rating__mark" aria-hidden="true">▲</span>Learning</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         Revision history (Experience)
+         ================================================================= -->
+    <section class="section" id="history" aria-labelledby="history-title">
+      <div class="container section__grid">
+        <div class="section__margin">
+          <h2 class="section__title" id="history-title">Revision history</h2>
+          <p class="section__subtitle">Experience and milestones in order</p>
+        </div>
+        <div class="section__body">
+          <div class="table-wrap">
+            <table class="data-table history">
+              <caption class="visually-hidden">Experience and milestones, newest first</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Change</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="history__date">Apr 2026–now</td><td>Contributor, GirlScript Summer of Code 2026 (AI Agents and Open Source tracks)</td></tr>
+                <tr><td class="history__date">Mar 2026–now</td><td>Open Source Contributor, OSCG. Merged PR, Contributor Badge</td></tr>
+                <tr><td class="history__date">Mar 2026</td><td>Shipped MediSense AI</td></tr>
+                <tr><td class="history__date">Feb 2026</td><td>Shipped VoiceGuard AI at India AI Impact Buildathon (HCL GUVI)</td></tr>
+                <tr><td class="history__date">2025</td><td>Started B.Tech CSE (AI &amp; DS), ADTU</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="aside-line">Also a member of GDG On Campus ADTU.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         Errata and roadmap (Now)
+         ================================================================= -->
+    <section class="section" id="now" aria-labelledby="now-title">
+      <div class="container section__grid">
+        <div class="section__margin">
+          <h2 class="section__title" id="now-title">Errata and roadmap</h2>
+          <p class="section__subtitle">What I'm fixing and learning right now</p>
+        </div>
+        <div class="section__body">
+          <div class="now-lists">
+            <div>
+              <h3 class="subtitle">Fixing</h3>
+              <ul class="plain-list">
+                <li>Moving VoiceGuard and MediSense to containerised, CI-driven workflows</li>
+                <li>Rebuilding MediSense independently</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="subtitle">Learning</h3>
+              <ul class="plain-list">
+                <li>Async FastAPI (ASGI lifecycles)</li>
+                <li>Redis and Celery</li>
+                <li>WebSocket streaming</li>
+                <li>Database connection pooling</li>
+                <li>Multi-stage Docker builds</li>
+                <li>IBM AI/DS and Azure MLOps certifications</li>
+              </ul>
+            </div>
+          </div>
+          <p class="prose">I write technical breakdowns on <a href="https://linkedin.com/in/srv99x" rel="noopener">LinkedIn</a>, where my network is 1,300+ people.</p>
+          <p class="caption">Last updated: October 2026</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         Ordering information (Contact)
+         "Copy email" (with live region) and "Print this page as a
+         datasheet" need JS and arrive in Phase 6.
+         ================================================================= -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container section__grid">
+        <div class="section__margin">
+          <h2 class="section__title" id="contact-title">Ordering information</h2>
+          <p class="section__subtitle">How to reach me</p>
+        </div>
+        <div class="section__body">
+          <p>The fastest way to reach me is email.</p>
+          <div class="contact__email-row">
+            <a class="contact__email" href="mailto:sourav4298532@gmail.com">sourav4298532@gmail.com</a>
+            <button class="btn btn--secondary btn--sm" id="copy-email-btn" type="button" aria-label="Copy email address to clipboard" hidden>Copy email</button>
+            <span class="visually-hidden" id="copy-email-feedback" aria-live="polite"></span>
+          </div>
+          <ul class="link-row contact__links">
+            <li><a href="https://linkedin.com/in/srv99x" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://github.com/Srv99x" rel="noopener">GitHub</a></li>
+            <li><a href="https://huggingface.co/Srv99x" rel="noopener">HuggingFace</a></li>
+            <li><a href="https://orcid.org/0009-0008-2573-5210" rel="noopener">ORCID</a></li>
+          </ul>
+          <div class="contact__actions">
+            <a class="btn btn--primary" href="assets/Sourav_resume.pdf" target="_blank" rel="noopener">Download resume</a>
+            <button class="btn btn--secondary" id="print-sheet-btn" type="button" hidden>Print this page as a datasheet</button>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
+  </main>
 
-  <hr class="section-divider" />
-
-
-  <!-- =====================================================================
-       NOW / CURRENTLY SECTION
-       
-       A small section that shows growth mindset and current focus.
-       ===================================================================== -->
-  <section id="now">
-    <div class="container">
-      <div class="section-label animate-on-scroll">Now</div>
-
-      <div class="now-card animate-on-scroll delay-1">
-        <p class="now-text">
-          Currently deep in a <strong>6-week MLOps roadmap</strong>, closing gaps in async
-          backend systems, containerization patterns, and model serving pipelines.
-          Preparing for <strong>2026 internship applications</strong> while contributing to
-          open source through GSSoC and OSCG. Publishing technical breakdowns and ML
-          learning notes on LinkedIn — 1,300+ developer network and growing.
-        </p>
-      </div>
-    </div>
-  </section>
-
-
-  <hr class="section-divider" />
-
-
-  <!-- =====================================================================
-       CONTACT SECTION
-       
-       Minimal — email, LinkedIn, GitHub. No contact form needed.
-       ===================================================================== -->
-  <section id="contact">
-    <div class="container">
-      <div class="section-label animate-on-scroll">Contact</div>
-
-      <div class="contact-links animate-on-scroll delay-1">
-        <!-- Email link — click copies to clipboard, shows "Copied!" toast -->
-        <a href="mailto:sourav4298532@gmail.com" class="email-copy" id="email-copy" data-email="sourav4298532@gmail.com" title="Click to copy email">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-          sourav4298532@gmail.com
-          <span class="copy-toast" id="copy-toast">Copied!</span>
-        </a>
-        <a href="https://linkedin.com/in/srv99x" target="_blank" rel="noopener noreferrer">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/Srv99x" target="_blank" rel="noopener noreferrer">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- =====================================================================
-       FOOTER
-       ===================================================================== -->
-  <footer class="footer">
-    <div class="container">
-      <p class="footer-text">
-        &copy; 2026 Sourav Chakraborty · Built with HTML, CSS &amp; JS
-      </p>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>© 2026 Sourav Chakraborty. Built with HTML, CSS and JavaScript.</p>
+      <a href="#top">Back to top</a>
     </div>
   </footer>
 
-
-  <!-- Main script — typing effect, scroll animations, nav behavior -->
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
+  <script src="figure.js" defer></script>
 </body>
 </html>
