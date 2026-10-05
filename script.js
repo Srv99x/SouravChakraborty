@@ -1,431 +1,171 @@
-/* ==========================================================================
-   SOURAV CHAKRABORTY — Portfolio Scripts
-   
-   This file handles:
-   1. Terminal-style typing effect in the hero section
-   2. Scroll-triggered animations via Intersection Observer
-   3. Navigation scroll behavior (solid on scroll)
-   4. Mobile navigation toggle
-   5. Magnetic 3D tilt hover effect on project cards
-   6. Copy-to-clipboard on email with toast notification
-   7. Light/Dark theme toggle
-   ========================================================================== */
+/* souravchakraborty.me v2 — main script.
+   Phase 2: sticky-header state, active-section underline, mobile menu, theme toggle.
+   Phase 6 adds: copy email (with aria-live + mailto fallback), print hook.
+   The page is complete without this file; it only enhances. */
+(function () {
+  'use strict';
 
+  var root = document.documentElement;
+  var header = document.getElementById('site-header');
+  var nav = document.getElementById('site-nav');
+  var themeBtn = document.getElementById('theme-toggle');
+  var menuBtn = document.getElementById('menu-btn');
+  if (!header || !nav) return;
 
-/* --------------------------------------------------------------------------
-   1. TERMINAL TYPING EFFECT
-   
-   HOW IT WORKS:
-   - We have an array of role strings to cycle through.
-   - The effect types each character one at a time, pauses, then deletes
-     character by character, then moves to the next string.
-   - The cursor blink is handled purely by CSS (see .cursor in style.css).
-   -------------------------------------------------------------------------- */
-const typingConfig = {
-  strings: [
-    'AI Backend Engineer',
-    'MLOps Engineer',
-    'FastAPI Developer',
-    'Open Source Contributor',
-  ],
-  typeSpeed: 70,       // ms per character typed
-  deleteSpeed: 40,     // ms per character deleted
-  pauseDuration: 2000, // ms to pause after full string is typed
-};
-
-function initTypingEffect() {
-  const element = document.getElementById('typing-text');
-  if (!element) return;
-
-  let stringIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-
-  function tick() {
-    const currentString = typingConfig.strings[stringIndex];
-
-    if (isDeleting) {
-      // Remove one character
-      charIndex--;
-      element.textContent = currentString.substring(0, charIndex);
-    } else {
-      // Add one character
-      charIndex++;
-      element.textContent = currentString.substring(0, charIndex);
-    }
-
-    // Determine the delay before the next tick
-    let delay = isDeleting ? typingConfig.deleteSpeed : typingConfig.typeSpeed;
-
-    if (!isDeleting && charIndex === currentString.length) {
-      // Finished typing — pause before deleting
-      delay = typingConfig.pauseDuration;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      // Finished deleting — move to next string
-      isDeleting = false;
-      stringIndex = (stringIndex + 1) % typingConfig.strings.length;
-      delay = 400; // brief pause before typing next string
-    }
-
-    setTimeout(tick, delay);
+  function listen(mq, fn) {
+    if (mq.addEventListener) mq.addEventListener('change', fn);
+    else if (mq.addListener) mq.addListener(fn);
   }
 
-  // Start the loop
-  tick();
-}
+  /* ---- Theme -------------------------------------------------------------
+     The saved choice is applied by the inline script in <head>. Here we only
+     wire the toggle. Without a saved choice the OS setting applies via CSS. */
+  var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-
-/* --------------------------------------------------------------------------
-   2. SCROLL-TRIGGERED ANIMATIONS (Intersection Observer)
-   
-   HOW IT WORKS:
-   - The Intersection Observer API watches elements with class
-     "animate-on-scroll" as they enter/exit the viewport.
-   - When an element's visibility crosses the threshold (10% visible),
-     the observer adds the "in-view" class, which triggers the CSS
-     transition defined in style.css (opacity 0→1, translateY 24px→0).
-   - We use { once: true } so the animation only plays once (no flickering
-     when scrolling back up).
-   - This is far more performant than scroll event listeners because the
-     browser optimizes observer callbacks off the main thread.
-   -------------------------------------------------------------------------- */
-function initScrollAnimations() {
-  const elements = document.querySelectorAll('.animate-on-scroll');
-
-  // If IntersectionObserver isn't supported (very old browsers), 
-  // just show everything immediately.
-  if (!('IntersectionObserver' in window)) {
-    elements.forEach(el => el.classList.add('in-view'));
-    return;
+  function currentTheme() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'light' || t === 'dark') return t;
+    return mqDark.matches ? 'dark' : 'light';
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          // Stop observing once animated — saves resources
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      // Trigger when 10% of the element is visible
-      threshold: 0.1,
-      // Start observing slightly before element enters viewport
-      rootMargin: '0px 0px -40px 0px',
-    }
-  );
-
-  elements.forEach(el => observer.observe(el));
-}
-
-
-/* --------------------------------------------------------------------------
-   3. NAVIGATION — add "scrolled" class on scroll for solid background
-   -------------------------------------------------------------------------- */
-function initNavScroll() {
-  const nav = document.querySelector('.nav');
-  if (!nav) return;
-
-  // Use a small threshold so the nav doesn't flicker
-  const scrollThreshold = 20;
-
-  function handleScroll() {
-    if (window.scrollY > scrollThreshold) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+  function syncThemeButton() {
+    if (!themeBtn) return;
+    themeBtn.setAttribute(
+      'aria-label',
+      currentTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+    );
   }
 
-  // Passive listener for better scroll performance
-  window.addEventListener('scroll', handleScroll, { passive: true });
-
-  // Run once on load in case page is already scrolled
-  handleScroll();
-}
-
-
-/* --------------------------------------------------------------------------
-   4. MOBILE NAVIGATION TOGGLE
-   -------------------------------------------------------------------------- */
-function initMobileNav() {
-  const toggle = document.querySelector('.nav-toggle');
-  const links = document.querySelector('.nav-links');
-  const overlay = document.querySelector('.nav-overlay');
-
-  if (!toggle || !links) return;
-
-  function closeMenu() {
-    toggle.classList.remove('active');
-    links.classList.remove('open');
-    if (overlay) overlay.classList.remove('visible');
-    document.body.style.overflow = '';
+  function announceTheme() {
+    // Phase 5 (figure.js) listens for this to redraw with the new colours.
+    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme() } }));
   }
 
-  function openMenu() {
-    toggle.classList.add('active');
-    links.classList.add('open');
-    if (overlay) overlay.classList.add('visible');
-    document.body.style.overflow = 'hidden';
+  if (themeBtn) {
+    themeBtn.hidden = false;
+    syncThemeButton();
+    themeBtn.addEventListener('click', function () {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      syncThemeButton();
+      announceTheme();
+    });
+    listen(mqDark, function () {
+      syncThemeButton();
+      announceTheme();
+    });
   }
 
-  toggle.addEventListener('click', () => {
-    if (links.classList.contains('open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-
-  // Close menu when clicking a link
-  links.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  // Close menu when clicking the overlay
-  if (overlay) {
-    overlay.addEventListener('click', closeMenu);
+  /* ---- Header background after 8px of scroll ---------------------------- */
+  function onScroll() {
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
   }
-}
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
+  /* ---- Mobile menu (below 720px; CSS decides when the button shows) ----- */
+  var mqMobile = window.matchMedia('(max-width: 719px)');
 
-/* --------------------------------------------------------------------------
-   5. SMOOTH SCROLL for nav anchor links (fallback for browsers without
-      CSS scroll-behavior support)
-   -------------------------------------------------------------------------- */
-function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
-      const targetId = anchor.getAttribute('href');
-      if (targetId === '#') return;
+  function menuIsOpen() {
+    return !!menuBtn && menuBtn.getAttribute('aria-expanded') === 'true';
+  }
 
-      const target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function setMenu(open) {
+    if (!menuBtn) return;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.textContent = open ? 'Close' : 'Menu';
+    header.classList.toggle('menu-open', open);
+  }
+
+  if (menuBtn) {
+    menuBtn.hidden = false;
+    menuBtn.addEventListener('click', function () { setMenu(!menuIsOpen()); });
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menuIsOpen()) {
+        setMenu(false);
+        menuBtn.focus();
       }
     });
-  });
-}
-
-
-/* --------------------------------------------------------------------------
-   6. MAGNETIC 3D TILT HOVER on .project-card elements
-
-   HOW THE MATH WORKS:
-   - We get the cursor position (clientX/Y) relative to the card's center.
-   - We normalize that to a -1 → +1 range (left/right, top/bottom).
-   - rotateY uses the horizontal offset (tilt left/right as cursor moves
-     left/right). rotateX uses the NEGATED vertical offset (tilt toward
-     the cursor — moving up tilts forward, which is negative rotateX).
-   - We multiply by MAX_TILT (7deg) for a subtle, precise effect.
-   - perspective(800px) creates the 3D depth. scale(1.02) adds a tiny
-     "lift" feel on hover.
-   - On mouseleave, we remove the inline transform so the CSS transition
-     smoothly returns the card to its neutral flat state.
-   -------------------------------------------------------------------------- */
-function initMagneticCards() {
-  const cards = document.querySelectorAll('.project-card');
-  const MAX_TILT = 7; // degrees — keep subtle (6-8 range)
-
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-
-      // Cursor position relative to card center, normalized to -1..1
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-
-      // rotateY: positive x → tilt right. rotateX: negative y → tilt toward cursor.
-      const rotateY = x * MAX_TILT;
-      const rotateX = -y * MAX_TILT;
-
-      // Add .is-tilting to disable the transform transition (real-time tracking)
-      card.classList.add('is-tilting');
-      card.style.transform =
-        `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      // Remove .is-tilting so the CSS transition animates the reset smoothly
-      card.classList.remove('is-tilting');
-      card.style.transform = '';
-    });
-  });
-}
-
-
-/* --------------------------------------------------------------------------
-   7. COPY-TO-CLIPBOARD ON EMAIL
-
-   Intercepts click on the .email-copy link, copies the email address from
-   the data-email attribute to the clipboard, and shows a "Copied!" toast.
-   Falls back to selecting the text if the Clipboard API is unavailable.
-   -------------------------------------------------------------------------- */
-function initEmailCopy() {
-  const emailLink = document.getElementById('email-copy');
-  const toast = document.getElementById('copy-toast');
-  if (!emailLink || !toast) return;
-
-  emailLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    const email = emailLink.dataset.email;
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      // Modern Clipboard API — works in secure contexts (HTTPS / localhost)
-      navigator.clipboard.writeText(email).then(() => {
-        showCopyToast(toast);
-      }).catch(() => {
-        // Clipboard API rejected — fall back to selection
-        fallbackCopyText(email);
-        showCopyToast(toast);
-      });
-    } else {
-      // Fallback for browsers without Clipboard API:
-      // Create a temporary <textarea>, select its contents, and use
-      // the legacy document.execCommand('copy').
-      fallbackCopyText(email);
-      showCopyToast(toast);
-    }
-  });
-}
-
-/* Show the "Copied!" toast for ~1.5 seconds then fade out */
-function showCopyToast(toast) {
-  toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 1500);
-}
-
-/* Fallback copy: create a hidden textarea, select, and execCommand */
-function fallbackCopyText(text) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-  } catch (err) {
-    // Silently fail — the mailto: link is still functional
+    listen(mqMobile, function () { setMenu(false); });
   }
-  document.body.removeChild(textarea);
-}
 
-
-/* --------------------------------------------------------------------------
-   8. LIGHT/DARK THEME TOGGLE
-   -------------------------------------------------------------------------- */
-function initThemeToggle() {
-  const toggleBtn = document.getElementById('theme-toggle');
-  if (!toggleBtn) return;
-
-  // Initial state logic matches the inline script in index.html <head>
-  const savedTheme = localStorage.getItem('theme');
-  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  let currentTheme = savedTheme || 'dark';
-
-  updateThemeIcon(currentTheme, toggleBtn);
-
-  toggleBtn.addEventListener('click', (e) => {
-    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-    // Fallback for browsers without View Transitions API
-    if (!document.startViewTransition) {
-      currentTheme = nextTheme;
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      localStorage.setItem('theme', currentTheme);
-      updateThemeIcon(currentTheme, toggleBtn);
-      return;
+  /* ---- Active-section underline ------------------------------------------ */
+  var links = {};
+  var ids = [];
+  Array.prototype.forEach.call(nav.querySelectorAll('a[href^="#"]'), function (a) {
+    var id = a.getAttribute('href').slice(1);
+    if (id && document.getElementById(id)) {
+      links[id] = a;
+      ids.push(id);
     }
-
-    /*
-     * Get ripple origin — use click coordinates if available,
-     * otherwise fall back to the button's center (handles mobile
-     * touch events where clientX/Y can be 0).
-     */
-    let x = e.clientX;
-    let y = e.clientY;
-    if (!x && !y) {
-      const rect = toggleBtn.getBoundingClientRect();
-      x = rect.left + rect.width / 2;
-      y = rect.top + rect.height / 2;
-    }
-
-    // Radius must reach the farthest corner of the viewport
-    const endRadius = Math.hypot(
-      Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y)
-    );
-
-    // Disable CSS transitions temporarily so the snapshot is clean
-    const style = document.createElement('style');
-    style.innerHTML = '*, *::before, *::after { transition: none !important; }';
-    document.head.appendChild(style);
-
-    const transition = document.startViewTransition(() => {
-      currentTheme = nextTheme;
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      localStorage.setItem('theme', currentTheme);
-      updateThemeIcon(currentTheme, toggleBtn);
-    });
-
-    transition.ready.then(() => {
-      /*
-       * Always animate the NEW view expanding outward as a circle
-       * from the click point. This works for both directions because
-       * the new snapshot (whatever theme we just switched TO) grows
-       * from 0 → full radius, covering the old snapshot underneath.
-       */
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`
-          ]
-        },
-        {
-          duration: 500,
-          easing: 'ease-in-out',
-          pseudoElement: '::view-transition-new(root)'
-        }
-      );
-    });
-
-    transition.finished.then(() => {
-      document.head.removeChild(style);
-    });
   });
-}
 
-function updateThemeIcon(theme, btn) {
-  if (theme === 'dark') {
-    // Sun icon for switching to light mode
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-    btn.setAttribute('aria-label', 'Switch to light mode');
-  } else {
-    // Moon icon for switching to dark mode
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-    btn.setAttribute('aria-label', 'Switch to dark mode');
+  function setActive(id) {
+    ids.forEach(function (key) {
+      if (key === id) links[key].setAttribute('aria-current', 'true');
+      else links[key].removeAttribute('aria-current');
+    });
   }
-}
 
+  if ('IntersectionObserver' in window && ids.length) {
+    var inBand = {};
+    // A thin band at ~40% of the viewport height decides which section is "current".
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { inBand[entry.target.id] = entry.isIntersecting; });
+      for (var i = 0; i < ids.length; i++) {
+        if (inBand[ids[i]]) { setActive(ids[i]); return; }
+      }
+      // Nothing in the band: clear only while still above the first section (the cover).
+      var first = document.getElementById(ids[0]);
+      if (first.getBoundingClientRect().top > window.innerHeight * 0.45) setActive(null);
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
 
-/* --------------------------------------------------------------------------
-   INITIALIZE EVERYTHING when the DOM is ready
-   -------------------------------------------------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-  initTypingEffect();
-  initScrollAnimations();
-  initNavScroll();
-  initMobileNav();
-  initSmoothScroll();
-  initMagneticCards();
-  initEmailCopy();
-  initThemeToggle();
-});
+    ids.forEach(function (id) { io.observe(document.getElementById(id)); });
+  }
+
+  /* ---- Phase 6: Copy email with polite live region & mailto fallback ----- */
+  var copyEmailBtn = document.getElementById('copy-email-btn');
+  var copyLive = document.getElementById('copy-email-feedback');
+  var emailAddress = 'sourav4298532@gmail.com';
+  var copyTimer = null;
+
+  function fallbackMailto() {
+    window.location.href = 'mailto:' + emailAddress;
+  }
+
+  function handleCopied() {
+    if (!copyEmailBtn) return;
+    copyEmailBtn.textContent = 'Copied';
+    if (copyLive) copyLive.textContent = 'Email copied';
+
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(function () {
+      copyEmailBtn.textContent = 'Copy email';
+      if (copyLive) copyLive.textContent = '';
+    }, 2000);
+  }
+
+  if (copyEmailBtn) {
+    copyEmailBtn.hidden = false;
+    copyEmailBtn.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(emailAddress).then(handleCopied).catch(fallbackMailto);
+      } else {
+        fallbackMailto();
+      }
+    });
+  }
+
+  /* ---- Phase 6: Print button --------------------------------------------- */
+  var printBtn = document.getElementById('print-sheet-btn');
+  if (printBtn) {
+    printBtn.hidden = false;
+    printBtn.addEventListener('click', function () {
+      window.print();
+    });
+  }
+})();
